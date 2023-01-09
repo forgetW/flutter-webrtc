@@ -48,10 +48,16 @@ android {
     }
 }
 
+//自动导入libs目录下的所有aar文件
+fileTree(dir: 'libs', include: '**/*.aar').each { File file ->
+    dependencies.add("api", [name: file.name.lastIndexOf('.').with {
+        it != -1 ? file.name[0..<it] : file.name
+    }, ext                       : 'aar'])
+}
 dependencies {
     implementation 'com.github.webrtc-sdk:android:104.5112.05'
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation(name: 'audioswitch-release', ext: 'aar')
+//    implementation fileTree(include: ['*.jar'], dir: 'libs')
+//    api(name: 'audioswitch-release', ext: 'aar')
 
 //    implementation "com.twilio:audioswitch:1.1.5"
     implementation 'androidx.annotation:annotation:1.1.0'
